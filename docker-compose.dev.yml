@@ -1,0 +1,9 @@
+version: '3.9'
+services:
+  dna-db:
+    image: mongo:latest
+    volumes:
+      - dna-data:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME: admin
+      - MONGO_INITDB_ROOT_PASSWORD: secret
