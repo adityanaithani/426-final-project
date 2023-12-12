@@ -35,6 +35,7 @@ app.post("/translate", validateDNA, async (req, res) => {
   const { dna } = req.body;
   const rna = translateToRNA(dna);
   // add to db
+  log.info(`Translated ${dna} to ${rna}`);
   res.status(200).json({ rna });
 });
 
@@ -43,6 +44,7 @@ app.post("/reverse-complement", validateDNA, async (req, res) => {
   const { dna } = req.body;
   const reverse = reverseComplement(dna);
   // add to db
+  log.info(`Reverse complement of ${dna} is ${reverse}`);
   res.status(200).json({ reverse });
 });
 
@@ -51,6 +53,7 @@ app.post("/gc-content", validateDNA, async (req, res) => {
   const { dna } = req.body;
   const gc = gcContent(dna);
   // add to db
+  log.info(`GC content of ${dna} is ${gc}`);
   res.status(200).json({ gc });
 });
 
@@ -59,6 +62,7 @@ app.post("/nucleotide-counts", validateDNA, async (req, res) => {
   const { dna } = req.body;
   const counts = nucleotideCounts(dna);
   // add to db
+  log.info(`Nucleotide counts of ${dna} are ${JSON.stringify(counts)}`);
   res.status(200).json({ counts });
 });
 
@@ -67,6 +71,7 @@ app.post("/nucleotide-frequency", validateDNA, async (req, res) => {
   const { dna } = req.body;
   const frequency = nucleotideFrequency(dna);
   // add to db
+  log.info(`Nucleotide frequency of ${dna} is ${JSON.stringify(frequency)}`);
   res.status(200).json({ frequency });
 });
 
@@ -74,3 +79,5 @@ app.listen(PORT, () => {
   log.info(`Listening on port ${PORT}`);
   console.log(`(${process.pid}) DNA Analysis Service: Listening on ${PORT}`);
 });
+
+export default log;
