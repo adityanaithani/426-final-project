@@ -1,13 +1,13 @@
 <script>
-  import UploadComponent from "./UploadComponent.svelte";
+  import AddComponent from "./AddComponent.svelte";
   import DnaComponent from "./DnaComponent.svelte";
   import SequenceDisplayComponent from "./SequenceDisplayComponent.svelte";
   import ChartComponent from "./ChartComponent.svelte";
 </script>
 
 <div class="container">
-  <h1>Upload File</h1>
-  <UploadComponent />
+  <h1>Add Sequence</h1>
+  <AddComponent />
 
   <hr />
   <h1>Your Sequences</h1>

@@ -32,6 +32,7 @@ app.use(express.json());
 
 // translate route
 app.post("/translate", validateDNA, async (req, res) => {
+  console.log(`(${process.pid}) DNA Service: POST /translate`);
   const { dna } = req.body;
   const rna = translateToRNA(dna);
   // add to db
