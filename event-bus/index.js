@@ -5,7 +5,7 @@ import winston from "winston";
 const log = winston.createLogger({
   level: "info",
   format: winston.format.json(),
-  defaultMeta: { service: "dna-service" },
+  defaultMeta: { service: "event-bus" },
   transports: [
     new winston.transports.File({ filename: "error.log", level: "error" }),
     new winston.transports.File({ filename: "event-bus.log" }),
