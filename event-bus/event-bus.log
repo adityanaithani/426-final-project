@@ -1,5 +1,0 @@
-{"level":"info","message":"Listening on port 4005","service":"event-bus"}
-{"level":"info","message":"Listening on port 4005","service":"event-bus"}
-{"level":"info","message":"Received event: {\"type\":\"SequenceAdded\",\"data\":{\"id\":\"7e7ee6ed\",\"sequence\":\"ATCG\"}}","service":"event-bus"}
-{"level":"info","message":"Listening on port 4005","service":"event-bus"}
-{"level":"info","message":"Received event: {\"type\":\"SequenceAdded\",\"data\":{\"id\":\"c0a14331\",\"sequence\":\"ATCG\"}}","service":"event-bus"}
