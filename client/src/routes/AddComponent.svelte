@@ -17,6 +17,7 @@
     const data = await res.json();
     sequence = '';
     console.log(`Client: ${JSON.stringify(data)}`);
+    
     SequenceStore.update((sequences) => {
       return { ...sequences, [data.id]: data };
     });

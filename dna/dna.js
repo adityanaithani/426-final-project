@@ -1,16 +1,16 @@
-import log from "./index.js";
+import log from './index.js';
 
 // validate dna middleware
 const validDna = /^[ATCG]+$/;
 
-export function validateDNA(req, res, next) {
+function validateDNA(req, res, next) {
   const { dna } = req.body;
 
   if (!validDna.test(dna)) {
     log.error(`Invalid DNA sequence: ${dna}`);
     return res.status(400).json({
       error:
-        "Invalid DNA sequence. Provide a sequence containing only A, T, C, G.",
+        'Invalid DNA sequence. Provide a sequence containing only A, T, C, G.',
     });
   }
 
@@ -18,24 +18,24 @@ export function validateDNA(req, res, next) {
 }
 
 // translate to RNA
-export function translateToRNA(dna) {
+function translateToRNA(dna) {
   log.info(`Translating ${dna} to RNA`);
-  return dna.replace(/T/g, "U");
+  return dna.replace(/T/g, 'U');
 }
 
 // reverse complement
-export function reverseComplement(dna) {
+function reverseComplement(dna) {
   log.info(`Calculating reverse complement of ${dna}`);
-  const complement = { A: "T", C: "G", G: "C", T: "A" };
+  const complement = { A: 'T', C: 'G', G: 'C', T: 'A' };
   return dna
-    .split("")
+    .split('')
     .reverse()
     .map((nucleotide) => complement[nucleotide])
-    .join("");
+    .join('');
 }
 
 // gc content calculation
-export function gcContent(dna) {
+function gcContent(dna) {
   log.info(`Calculating GC content of ${dna}`);
   const gc = (dna.match(/[GC]/g) || []).length;
   const at = (dna.match(/[AT]/g) || []).length;
@@ -49,15 +49,15 @@ export function gcContent(dna) {
 }
 
 // nucleotide counts
-export function nucleotideCounts(dna) {
+function nucleotideCounts(dna) {
   log.info(`Calculating nucleotide counts of ${dna}`);
   const counts = { A: 0, C: 0, G: 0, T: 0 };
-  dna.split("").forEach((nucleotide) => counts[nucleotide]++);
+  dna.split('').forEach((nucleotide) => counts[nucleotide]++);
   return counts;
 }
 
 // nucleotide frequency
-export function nucleotideFrequency(dna) {
+function nucleotideFrequency(dna) {
   log.info(`Calculating nucleotide frequency of ${dna}`);
   const counts = nucleotideCounts(dna);
   const total = dna.length;
@@ -66,3 +66,12 @@ export function nucleotideFrequency(dna) {
     return acc;
   }, {});
 }
+
+export default {
+  validateDNA,
+  translateToRNA,
+  reverseComplement,
+  gcContent,
+  nucleotideCounts,
+  nucleotideFrequency,
+};

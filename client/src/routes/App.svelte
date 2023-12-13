@@ -1,23 +1,24 @@
 <script>
   import AddComponent from "./AddComponent.svelte";
-  import DnaComponent from "./DnaComponent.svelte";
+  import AnalysisComponent from "./AnalysisComponent.svelte";
   import SequenceDisplayComponent from "./SequenceDisplayComponent.svelte";
   import ChartComponent from "./ChartComponent.svelte";
 </script>
 
+<h1>Genome Analytics</h1>
 <div class="container">
-  <h1>Add Sequence</h1>
+  <h2>Add Sequence</h2>
   <AddComponent />
 
   <hr />
-  <h1>Your Sequences</h1>
+  <h2>Your Sequences</h2>
   <SequenceDisplayComponent />
 
   <hr />
-  <h1>Analysis</h1>
-  <DnaComponent />
+  <h2>Sequence Analysis</h2>
+  <AnalysisComponent />
 
   <hr />
-  <h1>Charts</h1>
+  <h2>Genome Analysis</h2>
   <ChartComponent />
 </div>
