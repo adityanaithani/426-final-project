@@ -1,31 +1,31 @@
-import express from "express";
-import logger from "morgan";
-import helmet from "helmet";
-import winston from "winston";
-import cors from "cors";
-import { randomBytes } from "crypto";
-import Store from "./store.js";
+import express from 'express';
+import logger from 'morgan';
+import helmet from 'helmet';
+import winston from 'winston';
+import cors from 'cors';
+import { randomBytes } from 'crypto';
+import Store from './store.js';
 
 const log = winston.createLogger({
-  level: "info",
+  level: 'info',
   format: winston.format.json(),
-  defaultMeta: { service: "sequences-service" },
+  defaultMeta: { service: 'sequences-service' },
   transports: [
-    new winston.transports.File({ filename: "error.log", level: "error" }),
-    new winston.transports.File({ filename: "sequences.log" }),
+    new winston.transports.File({ filename: 'error.log', level: 'error' }),
+    new winston.transports.File({ filename: 'sequences.log' }),
   ],
 });
 
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-app.use(logger("dev"));
+app.use(logger('dev'));
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
 
 // get all sequences
-app.get("/sequences", async (req, res) => {
+app.get('/sequences', async (req, res) => {
   console.log(`(${process.pid}) Sequences Service: GET /sequences`);
   const sequences = await Store.read();
   console.log(
@@ -35,9 +35,9 @@ app.get("/sequences", async (req, res) => {
 });
 
 // add new sequence to collection
-app.post("/sequences", async (req, res) => {
+app.post('/sequences', async (req, res) => {
   console.log(`(${process.pid}) Sequences Service: POST /sequences`);
-  const id = randomBytes(4).toString("hex");
+  const id = randomBytes(4).toString('hex');
   const { sequence } = req.body;
 
   const sequences = Store.read();
@@ -50,11 +50,11 @@ app.post("/sequences", async (req, res) => {
   await Store.write(sequences);
 
   try {
-    await fetch("http://event-bus:4005/events", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    await fetch('http://localhost:4005/events', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        type: "SequenceAdded",
+        type: 'SequenceAdded',
         data: {
           id,
           sequence,
@@ -63,8 +63,8 @@ app.post("/sequences", async (req, res) => {
     });
   } catch (err) {
     console.log(`(${process.pid}) Sequences Service: ${err}`);
-    res.status(500).send({
-      status: "ERROR",
+    return res.status(500).send({
+      status: 'ERROR',
       message: err,
     });
   }

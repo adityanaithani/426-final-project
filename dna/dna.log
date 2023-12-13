@@ -33,3 +33,6 @@
 {"level":"info","message":"Reverse complement of ATCGTACGTAGTAGTCAGCTAGCTAGTA is TACTAGCTAGCTGACTACTACGTACGAT","service":"dna-service"}
 {"level":"info","message":"Listening on port 4001","service":"dna-service"}
 {"level":"info","message":"Listening on port 4001","service":"dna-service"}
+{"level":"info","message":"Listening on port 4001","service":"dna-service"}
+{"level":"info","message":"Listening on port 4001","service":"dna-service"}
+{"level":"info","message":"Listening on port 4001","service":"dna-service"}
