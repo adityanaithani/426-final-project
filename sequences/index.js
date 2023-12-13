@@ -34,7 +34,7 @@ app.get("/sequences", async (req, res) => {
   res.status(200).send(sequences);
 });
 
-// post new sequence
+// add new sequence to collection
 app.post("/sequences", async (req, res) => {
   console.log(`(${process.pid}) Sequences Service: POST /sequences`);
   const id = randomBytes(4).toString("hex");

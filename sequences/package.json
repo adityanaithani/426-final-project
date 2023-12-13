@@ -24,8 +24,9 @@
   },
   "contributors": [],
   "scripts": {
-    "start": "pm2 start index.js --name upload -i 1",
-    "stop": "pm2 stop upload",
+    "docker-start": "pm2-runtime start index.js --name sequences -i 5",
+    "start": "pm2 start index.js --name sequences -i 1",
+    "stop": "pm2 stop sequences",
     "dev": "nodemon index.js",
     "test": ""
   },

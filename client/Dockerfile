@@ -10,5 +10,6 @@ RUN npm install
 
 # # delete node_modules on host before building image
 COPY ./ ./
+RUN npm run build
 
 CMD ["npm", "run", "docker-start"]

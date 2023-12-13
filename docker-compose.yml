@@ -1,15 +1,33 @@
-# version: '3.9'
+version: '3.9'
 
-# services:
-#   mongodb:
-#     image: mongo:latest
-#     volumes:
-#       - mongodb-data:/data/db
-#     ports:
-#       - 27017:27017
-#     environment:
-#       MONGO_INITDB_ROOT_USERNAME: root
-#       MONGO_INITDB_ROOT_PASSWORD: rootaccess
+services:
+  client:
+    build: client
+    ports: 
+      - '3000:3000'
+  sequences:
+    build: sequences
+    ports: 
+      - '4000:4000'
+  dna:
+    build: dna
+    ports:
+      - '4001:4001'
+  results:
+    build: results
+    ports:
+      - '4002:4002'
+  event-bus:
+    build: event-bus
+  mongodb:
+    image: mongo:latest
+    volumes:
+      - mongodb-data:/data/db
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootaccess
 
-# volumes:
-#   mongodb-data:
+volumes:
+  mongodb-data:

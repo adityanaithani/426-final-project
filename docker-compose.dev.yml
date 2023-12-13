@@ -1,9 +1,49 @@
 version: '3.9'
+
 services:
-  dna-db:
+  client:
+    build: client
+    ports: 
+      - '3000:3000'
+    volumes:
+      - ./client:/usr/app
+      - /usr/app/node_modules
+  sequences:
+    build: sequences
+    ports: 
+      - '4000:4000'
+    volumes:
+      - ./sequences:/usr/app
+      - /usr/app/node_modules
+  dna:
+    build: dna
+    ports:
+      - '4001:4001'
+    volumes:
+      - ./dna:/usr/app
+      - /usr/app/node_modules
+  results:
+    build: results
+    ports:
+      - '4002:4002'
+    volumes:
+      - ./results:/usr/app
+      - /usr/app/node_modules
+  event-bus:
+    build: event-bus
+    volumes:
+      - ./event-bus:/usr/app
+      - /usr/app/node_modules
+
+  sequencedb:
     image: mongo:latest
     volumes:
-      - dna-data:/data/db
+      - sequence-data:/data/db
+    ports:
+      - '27017:27017'
     environment:
-      - MONGO_INITDB_ROOT_USERNAME: admin
-      - MONGO_INITDB_ROOT_PASSWORD: secret
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: secret
+
+volumes:
+  mongodb-data:

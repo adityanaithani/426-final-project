@@ -1,20 +1,20 @@
 import { MongoClient } from "mongodb";
 
-// TODO: replace url with real url
-const url = "mongodb://localhost:27017";
+const url = "mongodb://admin:secret@sequencedb:27017";
 const client = new MongoClient(url);
 const dbName = "sequences";
 
-let sequences;
+let seqPkg;
 const seqCollection = async () => {
-  if (!sequences) {
+  if (!seqPkg) {
     await client.connect();
     const db = client.db(dbName);
-    sequences = db.collection("sequences");
+    seqPkg = db.collection("sequences");
   }
-  return sequences;
+  return seqPkg;
 };
 
+// reads the first document in the collection (if storing as one, this is the only document)
 const read = async () => {
   try {
     const collection = await seqCollection();
@@ -25,6 +25,7 @@ const read = async () => {
   }
 };
 
+// write
 const write = async (data) => {
   try {
     const collection = await seqCollection();

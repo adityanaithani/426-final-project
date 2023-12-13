@@ -3,6 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "docker-start": "pm2-runtime start build/index.js --name client -i 1",
+    "start": "npm run build && pm2 start build/index.js --name client -i 1",
     "dev": "vite dev",
     "build": "vite build",
     "preview": "vite preview"
