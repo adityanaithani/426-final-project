@@ -3,7 +3,7 @@ import logger from 'morgan';
 import helmet from 'helmet';
 import winston from 'winston';
 import cors from 'cors';
-import AnalysisStore from './store.js';
+import Store from './store.js';
 import DNA from './dna.js';
 
 const log = winston.createLogger({
@@ -24,15 +24,6 @@ app.use(helmet());
 app.use(cors());
 app.use(express.json());
 
-// get all analyzed sequences
-app.get('/analyze', async (req, res) => {
-  console.log(`(${process.pid}) DNA Service: GET /analyze`);
-  const analyzed = await AnalysisStore.read();
-  console.log(analyzed);
-  console.log(`(${process.pid}) DNA Service: ${JSON.stringify(analyzed)}`);
-  res.status(200).send(analyzed);
-});
-
 // add new set of analyzed sequences to collection
 app.post('/analyze', async (req, res) => {
   console.log(`(${process.pid}) DNA Service: POST /analyze`);
@@ -42,7 +33,6 @@ app.post('/analyze', async (req, res) => {
   let analyzed = [];
   for (const sequenceObj of Object.values(sequences)) {
     const { id, sequence } = sequenceObj;
-    console.log(sequences);
     const rna = DNA.translateToRNA(sequence);
     const reverse = DNA.reverseComplement(sequence);
     const gc = DNA.gcContent(sequence);
@@ -62,7 +52,7 @@ app.post('/analyze', async (req, res) => {
 
   log.info(`Analyzed ${JSON.stringify(analyzed)}`);
   // add sequences to collection
-  await AnalysisStore.write(analyzed);
+  await Store.write(analyzed);
 
   // event bus
   try {
@@ -85,6 +75,21 @@ app.post('/analyze', async (req, res) => {
   }
   res.status(201).json({ analyzed });
   console.log(`(${process.pid}) DNA Service: ${JSON.stringify(analyzed)}`);
+});
+
+// get all analyzed sequences
+app.get('/analyze', async (req, res) => {
+  console.log(`(${process.pid}) DNA Service: GET /analyze`);
+  const analyzed = await Store.read();
+  console.log(`(${process.pid}) DNA Service: ${JSON.stringify(analyzed)}`);
+  res.status(200).send(analyzed);
+});
+
+// delete all analyzed sequences
+app.delete('/analyze', async (req, res) => {
+  console.log(`(${process.pid}) DNA Service: DELETE /analyze`);
+  await Store.drop();
+  res.status(200).json('Deleted all analyzed sequences');
 });
 
 app.post('/events', async (req, res) => {

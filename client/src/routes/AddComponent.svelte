@@ -15,11 +15,9 @@
     });
 
     const data = await res.json();
-    sequence = '';
     console.log(`Client: ${JSON.stringify(data)}`);
 
-    SequenceStore.set({});
-
+    sequence = '';
     };
 </script>
 

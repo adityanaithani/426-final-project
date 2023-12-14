@@ -15,7 +15,7 @@ const write = (stagedSeqs) => {
 
 const drop = () => {
   if (fs.existsSync('stagedSeqs.json')) {
-    fs.unlinkSync('stagedSeqs.json');
+    fs.writeFileSync('stagedSeqs.json', JSON.stringify({}));
   }
 };
 

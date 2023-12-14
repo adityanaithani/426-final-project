@@ -77,8 +77,8 @@ app.post('/sequences', async (req, res) => {
 // delete all sequences
 app.delete('/sequences', async (req, res) => {
   console.log(`(${process.pid}) Sequences Service: DELETE /sequences`);
-  // await Store.drop();
-  res.status(200).send('Deleted all sequences');
+  await Store.drop();
+  res.status(200).json('Deleted all sequences');
 });
 
 app.post('/events', async (req, res) => {

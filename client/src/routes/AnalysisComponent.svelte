@@ -1,8 +1,15 @@
 <script>
   import { onMount } from "svelte";
-  import { SequenceStore, AnalysisStore } from "./stores";
+  import { buttonClicked, AnalysisStore } from "./stores";
 
   let analyzed = {};
+
+  const formatObject = (obj) => {
+    return Object.entries(obj)
+      .map(([key, value]) => `${key}: ${value}`)
+      .join(', ');
+    // return obj;
+  };
 
   onMount(async () => {
     const res = await fetch("http://localhost:4001/analyze");
@@ -10,28 +17,42 @@
     AnalysisStore.set(analyzed);
   });
 
-  const formatObject = (obj) => {
-    return Object.entries(obj)
-      .map(([key, value]) => `${key}: ${value}`)
-      .join(', ');
-  };
-
   let rna = "";
   let rev = "";
   let gc = "";
   let ncount = "";
   let nfreq = "";
-  AnalysisStore.subscribe((_analyzed) => {
-    console.log(_analyzed);  // Add this line
 
+  AnalysisStore.subscribe((_analyzed) => {
     analyzed = _analyzed;
+  });
+
+  $: {
     const analyzedArray = Object.values(analyzed);
+    console.log(analyzedArray);
     rna = analyzedArray.map(obj => obj.rna).join('\n');
     rev = analyzedArray.map(obj => obj.reverse).join('\n');
     gc = analyzedArray.map(obj => obj.gc).join('\n');
-    ncount = analyzedArray.map(obj => formatObject(obj.counts)).join('\n');
-    nfreq = analyzedArray.map(obj => formatObject(obj.frequency)).join('\n');
-  });
+    if (ncount !== undefined) {
+      ncount = analyzedArray.map(obj => formatObject(obj.counts)).join('\n');
+    }
+    if (nfreq !== undefined) {
+      nfreq = analyzedArray.map(obj => formatObject(obj.frequency)).join('\n');
+    }
+  }
+
+  async function handleClick() {
+    const res = await fetch("http://localhost:4002/compute", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(analyzed),
+    });
+    const data = await res.json();
+    console.log(data);
+    buttonClicked.set(true);
+  }
 
 </script>
 
@@ -77,4 +98,4 @@
   bind:value={nfreq}
 ></textarea>
 
-<button>Add to Genome</button>
+<button on:click={handleClick}>Add to Genome</button>

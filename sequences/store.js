@@ -64,7 +64,7 @@ const write = (seqs) => {
 
 const drop = () => {
   if (fs.existsSync('seqs.json')) {
-    fs.unlinkSync('seqs.json');
+    fs.writeFileSync('seqs.json', JSON.stringify({}));
   }
 };
 
