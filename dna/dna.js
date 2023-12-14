@@ -45,7 +45,9 @@ function gcContent(dna) {
     return 0;
   }
 
-  return (gc / (gc + at)) * 100;
+  const gcContent = (gc / (gc + at)) * 100;
+  const rounded = Math.round(gcContent * 100) / 100;
+  return rounded;
 }
 
 // nucleotide counts

@@ -54,7 +54,7 @@ app.post('/sequences', async (req, res) => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        type: 'SequenceAdded',
+        type: 'SequenceStaged',
         data: {
           id,
           sequence,
@@ -72,6 +72,23 @@ app.post('/sequences', async (req, res) => {
   console.log(
     `(${process.pid}) Sequences Service: ${JSON.stringify(sequences)}`
   );
+});
+
+// delete all sequences
+app.delete('/sequences', async (req, res) => {
+  console.log(`(${process.pid}) Sequences Service: DELETE /sequences`);
+  // await Store.drop();
+  res.status(200).send('Deleted all sequences');
+});
+
+app.post('/events', async (req, res) => {
+  const event = req.body;
+  const type = event.type;
+
+  console.log(`(${process.pid}) Sequences Service Received Event: ${type}`);
+  log.info(`Sequences Service Received Event: ${type}`);
+
+  res.send({});
 });
 
 app.listen(PORT, () => {

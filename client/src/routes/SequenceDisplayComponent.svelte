@@ -1,6 +1,6 @@
 <script>
   import { onMount } from "svelte";
-  import { SequenceStore } from "./stores.js";
+  import { SequenceStore, AnalysisStore } from "./stores.js";
 
   let sequences = {};
 
@@ -16,7 +16,7 @@
     sequenceText = Object.values(sequences).map(seq => seq.sequence).join('\n');
   });
 
-  // function to send all sequences to server for analysis
+  // send all sequences to dna server for analysis
   const analyzeSequences = async (event) => {
     console.log(JSON.stringify({ sequences }));
     event.preventDefault();
@@ -30,10 +30,13 @@
     });
 
     const data = await res.json();
-    sequences = {};
     console.log(`Client: ${JSON.stringify(data)}`);
+    AnalysisStore.set(data);
 
-    SequenceStore.set(sequences);
+    // erase sequences from store
+    sequences = {};
+    sequenceText = '';
+    SequenceStore.set({sequences});
   };
 
 </script>
@@ -50,5 +53,3 @@
   ></textarea>
 <button type="submit">Analyze</button>
 </form>
-
-<button>Drop Sequences</button>
