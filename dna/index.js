@@ -33,11 +33,21 @@ app.post('/analyze', async (req, res) => {
   let analyzed = [];
   for (const sequenceObj of Object.values(sequences)) {
     const { id, sequence } = sequenceObj;
-    const rna = DNA.translateToRNA(sequence);
-    const reverse = DNA.reverseComplement(sequence);
-    const gc = DNA.gcContent(sequence);
-    const counts = DNA.nucleotideCounts(sequence);
-    const frequency = DNA.nucleotideFrequency(sequence);
+
+    let rna = '',
+      reverse = '',
+      gc = 0,
+      counts = {},
+      frequency = {};
+
+    if (sequence !== undefined) {
+      rna = DNA.translateToRNA(sequence);
+      reverse = DNA.reverseComplement(sequence);
+      gc = DNA.gcContent(sequence);
+      counts = DNA.nucleotideCounts(sequence);
+      frequency = DNA.nucleotideFrequency(sequence);
+    }
+
     const pkg = {
       id,
       sequence,
@@ -56,6 +66,7 @@ app.post('/analyze', async (req, res) => {
 
   // event bus
   try {
+    // await fetch('http://event-bus:4005/events', {
     await fetch('http://localhost:4005/events', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -68,12 +79,14 @@ app.post('/analyze', async (req, res) => {
     });
   } catch (err) {
     console.log(`(${process.pid}) DNA Service: ${err}`);
+    log.error(`DNA Service: ${err}`);
     return res.status(500).json({
       status: 'ERROR',
       message: err,
     });
   }
   res.status(201).json({ analyzed });
+  log.info(`Analyzed ${JSON.stringify(analyzed)}`);
   console.log(`(${process.pid}) DNA Service: ${JSON.stringify(analyzed)}`);
 });
 

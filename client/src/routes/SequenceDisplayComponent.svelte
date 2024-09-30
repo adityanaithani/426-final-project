@@ -16,8 +16,6 @@
   });
   });
 
-
-
   // send all sequences to dna server for analysis
   const analyzeSequences = async (event) => {
     console.log(JSON.stringify({ sequences }));

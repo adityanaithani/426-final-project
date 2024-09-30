@@ -1,15 +1,15 @@
-// import { MongoClient } from "mongodb";
+// import { MongoClient } from 'mongodb';
 
-// const url = "mongodb://admin:secret@sequencedb:27017";
+// const url = 'mongodb://admin:secret@genome-db:27017';
 // const client = new MongoClient(url);
-// const dbName = "sequences";
+// const dbName = 'genome-db';
 
 // let seqPkg;
 // const seqCollection = async () => {
 //   if (!seqPkg) {
 //     await client.connect();
 //     const db = client.db(dbName);
-//     seqPkg = db.collection("sequences");
+//     seqPkg = db.collection('sequences');
 //   }
 //   return seqPkg;
 // };

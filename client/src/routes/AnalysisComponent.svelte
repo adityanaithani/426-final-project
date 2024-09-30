@@ -8,7 +8,6 @@
     return Object.entries(obj)
       .map(([key, value]) => `${key}: ${value}`)
       .join(', ');
-    // return obj;
   };
 
   onMount(async () => {
@@ -57,38 +56,49 @@
 </script>
 
 
-<h3>RNA</h3>
-<textarea
-  readonly
-  id="rna-analysis"
-  rows="4"
-  cols="40"
-  bind:value={rna}
-></textarea>
-<h3>Reverse Complement</h3>
-<textarea
-  readonly
-  id="rev-analysis"
-  rows="4"
-  cols="40"
-  bind:value={rev}
-></textarea>
-<h3>GC Content</h3>
-<textarea
-  readonly
-  id="gc-analysis"
-  rows="4"
-  cols="40"
-  bind:value={gc}
-></textarea>
-<h3>Nucleotide Counts</h3>
-<textarea
-  readonly
-  id="ncount-analysis"
-  rows="10"
-  cols="40"
-  bind:value={ncount}
-></textarea>
+<div class="grid-container">
+  <div class="grid-item">
+    <h3>RNA</h3>
+    <textarea
+      readonly
+      id="rna-analysis"
+      rows="4"
+      cols="40"
+      bind:value={rna}
+    ></textarea>
+  </div>
+  <div class="grid-item">
+    <h3>Reverse Complement</h3>
+    <textarea
+      readonly
+      id="rev-analysis"
+      rows="4"
+      cols="40"
+      bind:value={rev}
+    ></textarea>
+  </div>
+  <div class="grid-item">
+    <h3>GC Content</h3>
+    <textarea
+      readonly
+      id="gc-analysis"
+      rows="4"
+      cols="40"
+      bind:value={gc}
+    ></textarea>
+  </div>
+  <div class="grid-item">
+    <h3>Nucleotide Counts</h3>
+    <textarea
+      readonly
+      id="ncount-analysis"
+      rows="10"
+      cols="40"
+      bind:value={ncount}
+    ></textarea>
+  </div>
+</div>
+
 <h3>Nucleotide Frequencies</h3>
 <textarea
   readonly
@@ -99,3 +109,32 @@
 ></textarea>
 
 <button on:click={handleClick}>Add to Genome</button>
+<style>
+  #rna-analysis {
+    background-color: #f5f5f5;
+  }
+  #rev-analysis {
+    background-color: #f5f5f5;
+  }
+  #gc-analysis {
+    background-color: #f5f5f5;
+  }
+  #ncount-analysis {
+    background-color: #f5f5f5;
+  }
+  #nfreq-analysis {
+    background-color: #f5f5f5;
+  }
+
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
+  }
+
+  /* arrange everything except nfreq-analysis as a grid */
+  h3, textarea, button {
+    display: inline-block;
+    vertical-align: top;
+  }
+</style>

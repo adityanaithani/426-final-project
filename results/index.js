@@ -3,7 +3,7 @@ import logger from 'morgan';
 import helmet from 'helmet';
 import winston from 'winston';
 import cors from 'cors';
-import DNA from '../dna/dna.js';
+import DNA from './dnahelper.js';
 import Store from './store.js';
 
 const log = winston.createLogger({
@@ -31,6 +31,7 @@ app.post('/compute', async (req, res) => {
 
   // get all analyzed sequences from dna service
   const analyzed = await fetch('http://localhost:4001/analyze', {
+    // const analyzed = await fetch('http://dna:4001/analyze', {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
   });
@@ -41,13 +42,6 @@ app.post('/compute', async (req, res) => {
   console.log(
     `(${process.pid}) Results Service: ${JSON.stringify(analyzedJson)}`
   );
-
-  // delete all sequences from dna service
-  // const deleted = await fetch('http://localhost:4001/analyze', {
-  //   method: 'DELETE',
-  //   headers: { 'Content-Type': 'application/json' },
-  // });
-  // const deletedJson = await deleted.json();
 
   // loop through analyzedJson and map the sequence field to one string
 
@@ -76,6 +70,7 @@ app.post('/compute', async (req, res) => {
   // event bus
   try {
     await fetch('http://localhost:4005/events', {
+      // await fetch('http://event-bus:4005/events', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

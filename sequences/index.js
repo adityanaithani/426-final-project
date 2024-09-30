@@ -51,6 +51,7 @@ app.post('/sequences', async (req, res) => {
 
   try {
     await fetch('http://localhost:4005/events', {
+      // await fetch('http://event-bus:4005/events', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

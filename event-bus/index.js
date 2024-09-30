@@ -18,13 +18,13 @@ const PORT = process.env.PORT || 4005;
 app.use(logger('dev'));
 app.use(express.json());
 
-// const servicePorts = [
-//   { name: "sequences", port: 4000 },
-//   { name: "dna", port: 4001 },
-//   { name: "results", port: 4002 },
-// ];
+const servicePorts = [
+  { name: 'sequences', port: 4000 },
+  { name: 'dna', port: 4001 },
+  { name: 'results', port: 4002 },
+];
 
-const servicePorts = [4000, 4001, 4002];
+// const servicePorts = [4000, 4001, 4002];
 
 app.post('/events', async (req, res) => {
   const event = req.body;
@@ -33,8 +33,8 @@ app.post('/events', async (req, res) => {
     `(${process.pid}) Event Bus: Received event: ${JSON.stringify(event)}`
   );
 
-  // for (const { name, port } of servicePorts) {
-  for (const port of servicePorts) {
+  for (const { name, port } of servicePorts) {
+    // for (const port of servicePorts) {
     try {
       console.log(
         `(${process.pid}) Event Bus: Forwarding event to ${port} ${event.type}`
